@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tty-dj-ZMB">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Feed View Controller-->
+        <scene sceneID="zdr-69-Y89">
+            <objects>
+                <collectionViewController id="Tty-dj-ZMB" customClass="FeedViewController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="4q9-wv-v8u">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="7Jp-ZO-zcG">
+                            <size key="itemSize" width="100" height="100"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="4" minY="25" maxX="4" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="YwJ-bv-BDf" customClass="PhotoCell">
+                                <rect key="frame" x="4" y="25" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Downloading" translatesAutoresizingMaskIntoConstraints="NO" id="oXS-1t-P5B">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="oXS-1t-P5B" secondAttribute="trailing" id="JN0-ms-FO6"/>
+                                    <constraint firstItem="oXS-1t-P5B" firstAttribute="top" secondItem="YwJ-bv-BDf" secondAttribute="top" id="StQ-wa-Xhd"/>
+                                    <constraint firstAttribute="bottom" secondItem="oXS-1t-P5B" secondAttribute="bottom" id="bdA-5N-Uo3"/>
+                                    <constraint firstItem="oXS-1t-P5B" firstAttribute="leading" secondItem="YwJ-bv-BDf" secondAttribute="leading" id="kCb-T3-Wvm"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="photo" destination="oXS-1t-P5B" id="Y3o-eM-nqk"/>
+                                    <outlet property="photoImgeView" destination="oXS-1t-P5B" id="b5l-UE-imH"/>
+                                </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="messageCell" id="b1v-46-x1p" customClass="MessageCell">
+                                <rect key="frame" x="137.5" y="25" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry, the photo service returned something other than expected" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gj1-xM-e43" userLabel="MessageLabel">
+                                            <rect key="frame" x="8" y="8" width="84" height="84"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="bottomMargin" secondItem="gj1-xM-e43" secondAttribute="bottom" id="PdB-jc-64Y"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="gj1-xM-e43" secondAttribute="trailing" id="Svo-de-StY"/>
+                                    <constraint firstItem="gj1-xM-e43" firstAttribute="top" secondItem="b1v-46-x1p" secondAttribute="topMargin" id="oeK-kn-XRq"/>
+                                    <constraint firstItem="gj1-xM-e43" firstAttribute="leading" secondItem="b1v-46-x1p" secondAttribute="leadingMargin" id="xIh-1G-nBc"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="messageLabel" destination="gj1-xM-e43" id="wmf-iF-SDq"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="Tty-dj-ZMB" id="VFo-wO-YGD"/>
+                            <outlet property="delegate" destination="Tty-dj-ZMB" id="vKO-7G-lvH"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jzw-jN-OQc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="147" y="-1"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Downloading" width="100" height="100"/>
+    </resources>
+</document>
