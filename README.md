@@ -1,2 +1,4 @@
 # FlickrFeedObjC
-These apps pull the latest public feed from Flickr and display them in a UICollectionViews. They will be three ass built in different ways: one will have a NSURLSession newtork client, another will be a simple one view app, and the last app will be using third party CocoaPods.
+The goal of this project is to parallel a Swift iOS app using a Test-Driven Development methodology. The apps pull the latest public feed from Flickr to be displayed in a UICollectionView. 
+
+As a secondary goal, the networking will be handled in a variety of ways. From implementing NSURLSession, to a simple one view app, to leveraging third-party libraries via dependency managers such as CocoaPods and Carthage.
