@@ -47,7 +47,7 @@ static NSString* const favoriteKey = @"favoriteKey";
     }
     
     Photo* photo = (Photo*)object;
-    return _itemId == photo.itemId;
+    return [_itemId isEqualToString:photo.itemId];
 }
 
 @end
