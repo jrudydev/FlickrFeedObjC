@@ -7,33 +7,57 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "Photo.h"
 
 @interface FlickrFeedPhotoTests : XCTestCase
 
 @end
 
-@implementation FlickrFeedPhotoTests
+@implementation FlickrFeedPhotoTests{
+    NSDictionary *_values1;
+    NSDictionary *_values2;
+}
+
+static NSString* const FlickrFeedPhotoItemId1 = @"FlickrFeedPhotoItemId1";
+static NSString* const FlickrFeedPhotoItemId2 = @"FlickrFeedPhotoItemId2";
+static NSString* const FlickrFeedPhotoPhotoUrl = @"http://www.example.com?a=b&b=c";
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    _values1 = @{
+                 FlickrFeedPhotoLinkKey: FlickrFeedPhotoItemId1,
+                 FlickrFeedPhotoMediaKey: @{
+                         FlickrFeedPhotoMKey: FlickrFeedPhotoPhotoUrl
+                         }
+                 };
+    _values2 = @{
+                 FlickrFeedPhotoLinkKey: FlickrFeedPhotoItemId2,
+                 FlickrFeedPhotoMediaKey: @{
+                         FlickrFeedPhotoMKey: FlickrFeedPhotoPhotoUrl
+                         }
+                 };
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    _values1 = nil;
+    _values2 = nil;
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testPhotoCreation {
+    Photo *photo = [[Photo alloc] initWithDict:_values1];
+    XCTAssertNotNil(photo);
+    XCTAssertEqual(photo.itemId, FlickrFeedPhotoItemId1);
+    XCTAssertEqual((NSString*)photo.photoUrl, FlickrFeedPhotoPhotoUrl);
+    XCTAssertEqual(photo.favorite, false);
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testPhotoEquality {
+    Photo *photo1 = [[Photo alloc] initWithDict:_values1];
+    Photo *photo2 = [[Photo alloc] initWithDict:_values2];
+    Photo *photo3 = [[Photo alloc] initWithDict:_values2];
+    XCTAssert(![photo1 isEqual:photo2], @"The photos are equal");
+    XCTAssert([photo2 isEqual:photo3], @"The photos are not equal");
 }
 
 @end
