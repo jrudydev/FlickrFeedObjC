@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString* const FlickrFeedPhotoLinkKey = @"link";
+static NSString* const FlickrFeedPhotoMediaKey = @"media";
+static NSString* const FlickrFeedPhotoMKey = @"m";
+
 @interface Photo : NSObject
 
 @property(nonatomic) NSString* itemId;
