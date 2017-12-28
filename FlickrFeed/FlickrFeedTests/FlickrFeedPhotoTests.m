@@ -1,5 +1,5 @@
 //
-//  FlickrFeedTests.m
+//  FlickrFeedPhotoTests.m
 //  FlickrFeedTests
 //
 //  Created by Rudy Gomez on 12/26/17.
@@ -8,11 +8,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface FlickrFeedTests : XCTestCase
+@interface FlickrFeedPhotoTests : XCTestCase
 
 @end
 
-@implementation FlickrFeedTests
+@implementation FlickrFeedPhotoTests
 
 - (void)setUp {
     [super setUp];
