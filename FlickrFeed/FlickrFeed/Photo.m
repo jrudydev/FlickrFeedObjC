@@ -17,19 +17,20 @@ static NSString* const favoriteKey = @"favoriteKey";
 - (instancetype)initWithDict:(NSDictionary*)dict {
     if (self = [super init]) {
         if (dict != nil) {
-            if ([dict objectForKey:@"link"] == nil) {
+            if ([dict objectForKey:FlickrFeedPhotoLinkKey] == nil) {
                 NSString* errorStr = @"Photo item could not be create:%@";
                 [NSException raise:@"ObjectNotCreated"
                             format: errorStr, dict.description];
             }
-            _itemId = (NSString*)dict[@"link"];
+            _itemId = (NSString*)dict[FlickrFeedPhotoLinkKey];
             
-            if ([dict objectForKey:@"link"] == nil || dict[@"media"][@"m"] == nil) {
+            if ([dict objectForKey:FlickrFeedPhotoLinkKey] == nil ||
+                dict[FlickrFeedPhotoMediaKey][FlickrFeedPhotoMKey] == nil) {
                 NSString* errorStr = @"Photo item could not be create:%@";
                 [NSException raise:@"ObjectNotCreated"
                             format: errorStr, dict.description];
             }
-            _photoUrl= (NSURL*)dict[@"media"][@"m"];
+            _photoUrl= (NSURL*)dict[FlickrFeedPhotoMediaKey][FlickrFeedPhotoMKey];
         }
     }
     return self;
