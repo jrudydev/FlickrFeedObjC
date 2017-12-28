@@ -41,11 +41,16 @@ static NSString * const reuseMessageIdentifier = @"messageCell";
                 _currentMessage = [error localizedDescription];
             }
             _photos = nil;
-            [self.collectionView reloadData];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.collectionView reloadData];
+            });
+            
             return;
         }
         _photos = [photos mutableCopy];
-        [self.collectionView reloadData];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
     }];
 }
 
