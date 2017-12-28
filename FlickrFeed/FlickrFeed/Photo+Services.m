@@ -17,16 +17,29 @@ enum {
 
 @implementation Photo(Services)
 
+static NSString* const kFlickrFeedBaseUrl = @"https://api.flickr.com";
+static NSString* const kFlickrFeedUrlPath = @"services/feeds/photos_public.gne";
+
 static NSString* const errorDomain = @"com.JRudyGomez.FlickrFeed.ErrorDomain";
-static NSString* const notImplementedError = @"This Feature has not been implemeneted";
-static NSString* const urlParseError = @"Sorry, there was an erorr getting the photo";
-static NSString* const jsonStructureError = @"Sorry, the photo service returned something different that expected";
+static NSString* const notImplementedError = @"Feature has not been implemeneted";
+static NSString* const urlParseError = @"There was an erorr getting the photo";
+static NSString* const jsonStructureError = @"Invalid JSON structure returned";
 
 + (void)getPhotosWithCompletionBlock:(PhotoResult)completion {
-    NSString *urlString = @"https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=1";
-    NSURL* url = [NSURL URLWithString:urlString];
+    NSURL* url = [NSURL URLWithString:kFlickrFeedBaseUrl];
+    if (!url) {
+        completion(nil, [Photo getError:URLPaseError]);
+    }
+    NSURLComponents *components = [NSURLComponents componentsWithURL:url
+                                             resolvingAgainstBaseURL:false];
+    components.path = kFlickrFeedUrlPath;
+    NSURLQueryItem *format = [NSURLQueryItem queryItemWithName:@"format"
+                                                         value:@"json"];
+    NSURLQueryItem *callback = [NSURLQueryItem queryItemWithName:@"nojsoncallback"
+                                                           value:@"1"];
+    components.queryItems = @[format, callback];
     
-    [[NetworkClient shared] getURL:url completionBlock:
+    [[NetworkClient shared] getURL:components.URL completionBlock:
      ^(id result, NSError* error) {
          if (error != nil) {
              completion(nil, error);
