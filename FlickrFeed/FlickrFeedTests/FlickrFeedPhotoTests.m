@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "FlickrFeedTestsConstants.h"
 #import "Photo.h"
 
 @interface FlickrFeedPhotoTests : XCTestCase
@@ -14,48 +15,44 @@
 @end
 
 @implementation FlickrFeedPhotoTests{
-    NSDictionary *_values1;
-    NSDictionary *_values2;
+    NSDictionary *_item1NetworkResult;
+    NSDictionary *_item2NetworkResult;
 }
-
-static NSString* const FlickrFeedPhotoItemId1 = @"FlickrFeedPhotoItemId1";
-static NSString* const FlickrFeedPhotoItemId2 = @"FlickrFeedPhotoItemId2";
-static NSString* const FlickrFeedPhotoPhotoUrl = @"http://www.example.com?a=b&b=c";
 
 - (void)setUp {
     [super setUp];
-    _values1 = @{
-                 FlickrFeedPhotoLinkKey: FlickrFeedPhotoItemId1,
+    _item1NetworkResult = @{
+                 FlickrFeedPhotoLinkKey: FlickrFeedPhotoTestItemId1,
                  FlickrFeedPhotoMediaKey: @{
-                         FlickrFeedPhotoMKey: FlickrFeedPhotoPhotoUrl
+                         FlickrFeedPhotoMKey: FlickrFeedPhotoTestUrl
                          }
                  };
-    _values2 = @{
-                 FlickrFeedPhotoLinkKey: FlickrFeedPhotoItemId2,
+    _item2NetworkResult = @{
+                 FlickrFeedPhotoLinkKey: FlickrFeedPhotoTestItemId2,
                  FlickrFeedPhotoMediaKey: @{
-                         FlickrFeedPhotoMKey: FlickrFeedPhotoPhotoUrl
+                         FlickrFeedPhotoMKey: FlickrFeedPhotoTestUrl
                          }
                  };
 }
 
 - (void)tearDown {
-    _values1 = nil;
-    _values2 = nil;
+    _item1NetworkResult = nil;
+    _item2NetworkResult = nil;
     [super tearDown];
 }
 
 - (void)testPhotoCreation {
-    Photo *photo = [[Photo alloc] initWithDict:_values1];
+    Photo *photo = [[Photo alloc] initWithDict:_item1NetworkResult];
     XCTAssertNotNil(photo);
-    XCTAssertEqual(photo.itemId, FlickrFeedPhotoItemId1);
-    XCTAssertEqual((NSString*)photo.photoUrl, FlickrFeedPhotoPhotoUrl);
+    XCTAssertEqual(photo.itemId, FlickrFeedPhotoTestItemId1);
+    XCTAssertEqual((NSString*)photo.photoUrl, FlickrFeedPhotoTestUrl);
     XCTAssertEqual(photo.favorite, false);
 }
 
 - (void)testPhotoEquality {
-    Photo *photo1 = [[Photo alloc] initWithDict:_values1];
-    Photo *photo2 = [[Photo alloc] initWithDict:_values2];
-    Photo *photo3 = [[Photo alloc] initWithDict:_values2];
+    Photo *photo1 = [[Photo alloc] initWithDict:_item1NetworkResult];
+    Photo *photo2 = [[Photo alloc] initWithDict:_item2NetworkResult];
+    Photo *photo3 = [[Photo alloc] initWithDict:_item2NetworkResult];
     XCTAssert(![photo1 isEqual:photo2], @"The photos are equal");
     XCTAssert([photo2 isEqual:photo3], @"The photos are not equal");
 }
