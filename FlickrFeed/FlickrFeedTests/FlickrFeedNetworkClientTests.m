@@ -16,6 +16,25 @@
 
 @end
 
+// MARK: Mock Objects
+
+@interface MockNetworkClient : NetworkClient
+- (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion;
+- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion;
+@end
+
+@implementation MockNetworkClient
+
+- (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion {
+//    completion(FlickrFeedNetworkClientTests.item1NetworkResult, nil);
+}
+
+- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion {
+    completion(data, nil);
+}
+
+@end
+
 @implementation FlickrFeedNetworkClientTests {
     NetworkClient *_networkClient;
     NSDictionary *_item1NetworkResult;
@@ -42,10 +61,19 @@
 
 - (void)tearDown {
     _networkClient = nil;
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    _item1NetworkResult = nil;
+    _item2NetworkResult = nil;
     [super tearDown];
 }
 
+// MARK: JSON Parsing
 
+- (void)testNetworkClientParseJSONDictionary {
+    
+}
+
+- (void)testNetworkClientParseJSONArray {
+    
+}
 
 @end

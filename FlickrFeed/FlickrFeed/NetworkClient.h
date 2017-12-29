@@ -17,5 +17,6 @@ typedef void(^ImageResult)(UIImage*, NSError*);
 + (instancetype)shared;
 - (id)init __attribute__ ((unavailable("Init unavailable for this class, use +[NetworkClient]shared instead.]")));
 - (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion;
+- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion;
 
 @end
