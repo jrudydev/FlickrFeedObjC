@@ -30,13 +30,13 @@ static NSString* const jsonStructureError = @"Invalid JSON structure returned";
     if (!url) {
         completion(nil, [Photo getError:URLPaseError]);
     }
-    NSURLComponents *components = [NSURLComponents componentsWithURL:url
-                                             resolvingAgainstBaseURL:false];
-    components.path = kFlickrFeedUrlPath;
-    NSURLQueryItem *format = [NSURLQueryItem queryItemWithName:@"format"
-                                                         value:@"json"];
-    NSURLQueryItem *callback = [NSURLQueryItem queryItemWithName:@"nojsoncallback"
-                                                           value:@"1"];
+    NSURL* relative = [NSURL URLWithString:kFlickrFeedUrlPath relativeToURL:url];
+    NSURLComponents *components = [NSURLComponents componentsWithURL:relative
+                                             resolvingAgainstBaseURL:YES];
+    NSURLQueryItem *format = [NSURLQueryItem
+                              queryItemWithName:@"format" value:@"json"];
+    NSURLQueryItem *callback = [NSURLQueryItem
+                                queryItemWithName:@"nojsoncallback" value:@"1"];
     components.queryItems = @[format, callback];
     
     [[NetworkClient shared] getURL:components.URL completionBlock:
