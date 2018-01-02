@@ -7,6 +7,7 @@
 //
 
 #import "NetworkClient.h"
+#import "Utilities.h"
 
 @implementation NetworkClient {
     NSURLSession* _urlSession;
@@ -54,13 +55,13 @@
                                   error:&error];
     
     if (parseResults != nil) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        [Utilities threadSafeExecutionBlock:^ {
             completion(parseResults, nil);
-        });
+        }];
     } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        [Utilities threadSafeExecutionBlock:^ {
             completion(nil, error);
-        });
+        }];
     }
 }
 
