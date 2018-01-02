@@ -8,27 +8,17 @@
 
 #import "Photo+Services.h"
 #import "NetworkClient.h"
-
-enum {
-    NotImplementedError,
-    URLPaseError,
-    JSONStructureError
-} PhotoServiceError;
+#import "Utilities.h"
 
 @implementation Photo(Services)
 
 static NSString* const kFlickrFeedBaseUrl = @"https://api.flickr.com";
 static NSString* const kFlickrFeedUrlPath = @"services/feeds/photos_public.gne";
 
-static NSString* const errorDomain = @"com.JRudyGomez.FlickrFeed.ErrorDomain";
-static NSString* const notImplementedError = @"Feature has not been implemeneted";
-static NSString* const urlParseError = @"There was an erorr getting the photo";
-static NSString* const jsonStructureError = @"Invalid JSON structure returned";
-
 + (void)getPhotosWithCompletionBlock:(PhotoResult)completion {
     NSURL* url = [NSURL URLWithString:kFlickrFeedBaseUrl];
     if (!url) {
-        completion(nil, [Photo getError:URLPaseError]);
+        completion(nil, [Utilities getError:URLPaseError]);
     }
     NSURL* relative = [NSURL URLWithString:kFlickrFeedUrlPath relativeToURL:url];
     NSURLComponents *components = [NSURLComponents componentsWithURL:relative
@@ -60,35 +50,8 @@ static NSString* const jsonStructureError = @"Invalid JSON structure returned";
              }
          }
          
-         completion(nil, [Photo getError:JSONStructureError]);
+         completion(nil, [Utilities getError:JSONStructureError]);
     }];
 }
 
-// MARK: - Helper Methods
-
-+ (NSError*)getError:(int)errorCode {
-    NSDictionary* userInfo;
-    switch(errorCode) {
-        case NotImplementedError: userInfo = @{
-                NSLocalizedDescriptionKey:
-                    NSLocalizedString(notImplementedError, nil)
-            };
-            break;
-        case URLPaseError: userInfo = @{
-                NSLocalizedDescriptionKey:
-                    NSLocalizedString(urlParseError, nil)
-            };
-            break;
-        case JSONStructureError: userInfo = @{
-                NSLocalizedDescriptionKey:
-                    NSLocalizedString(jsonStructureError, nil)
-            };
-            break;
-    }
-    
-    NSError* error = [NSError errorWithDomain:errorDomain
-                                         code:errorCode
-                                     userInfo:userInfo];
-    return error;
-}
 @end
