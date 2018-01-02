@@ -10,47 +10,48 @@
 #import "FlickrFeedTestsConstants.h"
 #import "NetworkClient.h"
 #import "Photo.h"
+#import "Utilities.h"
 
 
 @interface FlickrFeedNetworkClientTests : XCTestCase
 
 @end
 
+static NSDictionary* item1NetworkResult = nil;
+static NSDictionary* item2NetworkResult = nil;
+
 // MARK: Mock Objects
 
 @interface MockNetworkClient : NetworkClient
 - (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion;
-- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion;
+//- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion;
 @end
 
 @implementation MockNetworkClient
-
 - (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion {
-//    completion(FlickrFeedNetworkClientTests.item1NetworkResult, nil);
+    completion(item1NetworkResult, nil);
 }
-
-- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion {
-    completion(data, nil);
-}
-
+//- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion {
+//    completion(item1NetworkResult, nil);
+//}
 @end
 
 @implementation FlickrFeedNetworkClientTests {
-    NetworkClient *_networkClient;
-    NSDictionary *_item1NetworkResult;
-    NSDictionary *_item2NetworkResult;
+    MockNetworkClient *_networkClient;
 }
+
+// MARK: Setup Methods
 
 - (void)setUp {
     [super setUp];
-    _networkClient = [NetworkClient shared];
-    _item1NetworkResult = @{
+    _networkClient = [MockNetworkClient shared];
+    item1NetworkResult = @{
                            FlickrFeedPhotoLinkKey: FlickrFeedPhotoTestItemId1,
                            FlickrFeedPhotoMediaKey: @{
                                    FlickrFeedPhotoMKey: FlickrFeedPhotoTestUrl
                                    }
                            };
-    _item2NetworkResult = @{
+    item2NetworkResult = @{
                            FlickrFeedPhotoLinkKey: FlickrFeedPhotoTestItemId2,
                            FlickrFeedPhotoMediaKey: @{
                                    FlickrFeedPhotoMKey: FlickrFeedPhotoTestUrl
@@ -61,15 +62,39 @@
 
 - (void)tearDown {
     _networkClient = nil;
-    _item1NetworkResult = nil;
-    _item2NetworkResult = nil;
+    item1NetworkResult = nil;
+    item2NetworkResult = nil;
     [super tearDown];
 }
 
 // MARK: JSON Parsing
 
-- (void)testNetworkClientParseJSONDictionary {
+- (void)testNetworkClientGetUrl {
     
+}
+
+- (void)testNetworkClientParseJSONDictionary {
+    NSData *jsonData = [NSKeyedArchiver
+                        archivedDataWithRootObject:item1NetworkResult];
+    
+    [_networkClient parseJSON:jsonData completionBlock:
+     ^(id result, NSError* error) {
+         if (error != nil) {
+             NSError *error = [Utilities getError:URLPaseError];
+             NSLog(@"%@", error.localizedDescription);
+             XCTAssert(false, @"Error parsing data");
+             return;
+         }
+         
+         NSDictionary *dictionary = (NSDictionary *)result;
+         if (dictionary == nil) {
+             NSError *error = [Utilities getError:JSONStructureError];
+             NSLog(@"%@", error.localizedDescription);
+             XCTAssert(false, "Error parsing data");
+             return;
+         }
+         XCTAssert(dictionary == item1NetworkResult, "Values do not match");
+    }];
 }
 
 - (void)testNetworkClientParseJSONArray {
