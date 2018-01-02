@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    NotImplementedError,
+    URLPaseError,
+    JSONStructureError
+} PhotoServiceError;
+
 @interface Utilities : NSObject
+
++ (NSError*)getError:(int)errorCode;
++ (void)threadSafeExecutionBlock:(void (^) (void))block;
 
 @end
