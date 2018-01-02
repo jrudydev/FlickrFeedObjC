@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9300E4941FF4EDD00041E391 /* FlickrFeedNetworkClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9300E4931FF4EDD00041E391 /* FlickrFeedNetworkClientTests.m */; };
+		9300E49C1FF8DC770041E391 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9300E49B1FF8DC770041E391 /* Utilities.m */; };
+		9300E49D1FF8DC770041E391 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9300E49B1FF8DC770041E391 /* Utilities.m */; };
 		93AD04FE1FE6729700F5C35C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD04FD1FE6729700F5C35C /* AppDelegate.m */; };
 		93AD05041FE6729700F5C35C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93AD05021FE6729700F5C35C /* Main.storyboard */; };
 		93AD05061FE6729700F5C35C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93AD05051FE6729700F5C35C /* Assets.xcassets */; };
@@ -44,6 +46,8 @@
 /* Begin PBXFileReference section */
 		9300E4931FF4EDD00041E391 /* FlickrFeedNetworkClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrFeedNetworkClientTests.m; sourceTree = "<group>"; };
 		9300E4951FF5D0020041E391 /* FlickrFeedTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrFeedTestsConstants.h; sourceTree = "<group>"; };
+		9300E49A1FF8DC770041E391 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		9300E49B1FF8DC770041E391 /* Utilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		93AD04F91FE6729700F5C35C /* FlickrFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93AD04FC1FE6729700F5C35C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		93AD04FD1FE6729700F5C35C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 			children = (
 				93AD04FC1FE6729700F5C35C /* AppDelegate.h */,
 				93AD04FD1FE6729700F5C35C /* AppDelegate.m */,
+				9300E49A1FF8DC770041E391 /* Utilities.h */,
+				9300E49B1FF8DC770041E391 /* Utilities.m */,
 				93AD050A1FE6729700F5C35C /* Info.plist */,
 				93AD050B1FE6729700F5C35C /* main.m */,
 				93AD05071FE6729700F5C35C /* LaunchScreen.storyboard */,
@@ -325,6 +331,7 @@
 				93AD05431FE7289100F5C35C /* PhotoCell.m in Sources */,
 				93AD05371FE675C200F5C35C /* MessageCell.m in Sources */,
 				93AD050C1FE6729700F5C35C /* main.m in Sources */,
+				9300E49C1FF8DC770041E391 /* Utilities.m in Sources */,
 				93AD05341FE6741F00F5C35C /* FeedViewController.m in Sources */,
 				93AD053D1FE713C200F5C35C /* NetworkClient.m in Sources */,
 				93AD053A1FE67E1400F5C35C /* Photo.m in Sources */,
@@ -339,6 +346,7 @@
 			files = (
 				93EB172E1FF3661100C87C46 /* FlickrFeedTests.m in Sources */,
 				93EB172C1FF363EF00C87C46 /* FlickrFeedPhotoTests.m in Sources */,
+				9300E49D1FF8DC770041E391 /* Utilities.m in Sources */,
 				9300E4941FF4EDD00041E391 /* FlickrFeedNetworkClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
