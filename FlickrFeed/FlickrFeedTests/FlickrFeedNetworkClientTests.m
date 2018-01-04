@@ -17,8 +17,10 @@
 
 @end
 
-static NSDictionary* item1NetworkResult = nil;
-static NSDictionary* item2NetworkResult = nil;
+static NSDictionary *item1NetworkResult = nil;
+static NSDictionary *item2NetworkResult = nil;
+static NSString *item1NetworkResultFile = nil;
+static NSString *item2NetworkResultFile = nil;
 
 // MARK: Mock Objects
 
@@ -45,6 +47,7 @@ static NSDictionary* item2NetworkResult = nil;
 - (void)setUp {
     [super setUp];
     _networkClient = [MockNetworkClient shared];
+    
     item1NetworkResult = @{
                            FlickrFeedPhotoLinkKey: FlickrFeedPhotoTestItemId1,
                            FlickrFeedPhotoMediaKey: @{
@@ -58,12 +61,17 @@ static NSDictionary* item2NetworkResult = nil;
                                    }
                            
                            };
+    
+    item1NetworkResultFile = @"MockServerResponseDictionary1";
+    item2NetworkResultFile = @"MockServerResponseDictionary1";
 }
 
 - (void)tearDown {
     _networkClient = nil;
     item1NetworkResult = nil;
     item2NetworkResult = nil;
+    item1NetworkResultFile = nil;
+    item2NetworkResultFile = nil;
     [super tearDown];
 }
 
@@ -74,8 +82,10 @@ static NSDictionary* item2NetworkResult = nil;
 }
 
 - (void)testNetworkClientParseJSONDictionary {
-    NSData *jsonData = [NSKeyedArchiver
-                        archivedDataWithRootObject:item1NetworkResult];
+    NSString *filePath = [[NSBundle mainBundle]
+                          pathForResource:item1NetworkResultFile
+                          ofType:@"json"];
+    NSData *jsonData = [[NSData alloc] initWithContentsOfFile:filePath];
     
     [_networkClient parseJSON:jsonData completionBlock:
      ^(id result, NSError* error) {
@@ -93,7 +103,16 @@ static NSDictionary* item2NetworkResult = nil;
              XCTAssert(false, "Error parsing data");
              return;
          }
-         XCTAssert(dictionary == item1NetworkResult, "Values do not match");
+         NSString *resultLink = dictionary[FlickrFeedPhotoLinkKey];
+         NSString *expectedLink = item1NetworkResult[FlickrFeedPhotoLinkKey];
+         XCTAssert([resultLink isEqualToString:expectedLink],
+                   "Links do not match");
+         NSDictionary *resultMedia = dictionary[FlickrFeedPhotoMediaKey];
+         NSDictionary *expectedMedia = item1NetworkResult[FlickrFeedPhotoMediaKey];
+         NSString *resultMString = resultMedia[FlickrFeedPhotoMKey];
+         NSString *expectedMString = expectedMedia[FlickrFeedPhotoMKey];
+         XCTAssert([resultMString isEqualToString:expectedMString],
+                   "M strings do not match");
     }];
 }
 

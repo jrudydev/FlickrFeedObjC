@@ -10,6 +10,8 @@
 		9300E4941FF4EDD00041E391 /* FlickrFeedNetworkClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9300E4931FF4EDD00041E391 /* FlickrFeedNetworkClientTests.m */; };
 		9300E49C1FF8DC770041E391 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9300E49B1FF8DC770041E391 /* Utilities.m */; };
 		9300E49D1FF8DC770041E391 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9300E49B1FF8DC770041E391 /* Utilities.m */; };
+		9300E4A31FFE1F3D0041E391 /* MockServerResponseDictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = 9300E4A21FFE1F3C0041E391 /* MockServerResponseDictionary.json */; };
+		9300E4A41FFE1F3D0041E391 /* MockServerResponseDictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = 9300E4A21FFE1F3C0041E391 /* MockServerResponseDictionary.json */; };
 		93AD04FE1FE6729700F5C35C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93AD04FD1FE6729700F5C35C /* AppDelegate.m */; };
 		93AD05041FE6729700F5C35C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93AD05021FE6729700F5C35C /* Main.storyboard */; };
 		93AD05061FE6729700F5C35C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93AD05051FE6729700F5C35C /* Assets.xcassets */; };
@@ -48,6 +50,7 @@
 		9300E4951FF5D0020041E391 /* FlickrFeedTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrFeedTestsConstants.h; sourceTree = "<group>"; };
 		9300E49A1FF8DC770041E391 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		9300E49B1FF8DC770041E391 /* Utilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		9300E4A21FFE1F3C0041E391 /* MockServerResponseDictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MockServerResponseDictionary.json; sourceTree = "<group>"; };
 		93AD04F91FE6729700F5C35C /* FlickrFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93AD04FC1FE6729700F5C35C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		93AD04FD1FE6729700F5C35C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -135,10 +138,11 @@
 		93AD05141FE6729700F5C35C /* FlickrFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				9300E4951FF5D0020041E391 /* FlickrFeedTestsConstants.h */,
 				9300E4931FF4EDD00041E391 /* FlickrFeedNetworkClientTests.m */,
 				93EB172B1FF363EF00C87C46 /* FlickrFeedPhotoTests.m */,
 				93EB172D1FF3661100C87C46 /* FlickrFeedTests.m */,
-				9300E4951FF5D0020041E391 /* FlickrFeedTestsConstants.h */,
+				9300E4A21FFE1F3C0041E391 /* MockServerResponseDictionary.json */,
 				93AD05171FE6729700F5C35C /* Info.plist */,
 			);
 			path = FlickrFeedTests;
@@ -302,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93AD05091FE6729700F5C35C /* LaunchScreen.storyboard in Resources */,
+				9300E4A31FFE1F3D0041E391 /* MockServerResponseDictionary.json in Resources */,
 				93AD05061FE6729700F5C35C /* Assets.xcassets in Resources */,
 				93AD05041FE6729700F5C35C /* Main.storyboard in Resources */,
 			);
@@ -311,6 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9300E4A41FFE1F3D0041E391 /* MockServerResponseDictionary.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

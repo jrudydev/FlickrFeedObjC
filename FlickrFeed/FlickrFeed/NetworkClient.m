@@ -51,7 +51,8 @@
 - (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion {
     NSError* error;
     NSDictionary* parseResults = [NSJSONSerialization
-                                  JSONObjectWithData:data options:kNilOptions
+                                  JSONObjectWithData:data
+                                  options:kNilOptions
                                   error:&error];
     
     if (parseResults != nil) {
