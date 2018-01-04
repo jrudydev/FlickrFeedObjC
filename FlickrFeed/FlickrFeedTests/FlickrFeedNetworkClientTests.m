@@ -59,7 +59,7 @@ static NSString *resultJSONArrayFileName = nil;
                            };
     
     resultJSONDictionaryFileName = @"MockServerResponseDictionary";
-    resultJSONArrayFileName = @"MockServerResponseArra";
+    resultJSONArrayFileName = @"MockServerResponseArray";
 }
 
 - (void)tearDown {
@@ -100,20 +100,59 @@ static NSString *resultJSONArrayFileName = nil;
              return;
          }
          NSString *resultLink = dictionary[FlickrFeedPhotoLinkKey];
-         NSString *expectedLink = item1NetworkResult[FlickrFeedPhotoLinkKey];
-         XCTAssert([resultLink isEqualToString:expectedLink],
+         XCTAssert([resultLink isEqualToString:FlickrFeedPhotoTestItemId1],
                    "Links do not match");
          NSDictionary *resultMedia = dictionary[FlickrFeedPhotoMediaKey];
-         NSDictionary *expectedMedia = item1NetworkResult[FlickrFeedPhotoMediaKey];
          NSString *resultMString = resultMedia[FlickrFeedPhotoMKey];
-         NSString *expectedMString = expectedMedia[FlickrFeedPhotoMKey];
-         XCTAssert([resultMString isEqualToString:expectedMString],
+         XCTAssert([resultMString isEqualToString:FlickrFeedPhotoTestUrl],
                    "M strings do not match");
     }];
 }
 
 - (void)testNetworkClientParseJSONArray {
+    NSString *filePath = [[NSBundle mainBundle]
+                          pathForResource:resultJSONArrayFileName
+                          ofType:@"json"];
+    NSData *jsonData = [[NSData alloc] initWithContentsOfFile:filePath];
     
+    [_networkClient parseJSON:jsonData completionBlock:
+     ^(id result, NSError* error) {
+         if (error != nil) {
+             NSError *error = [Utilities getError:URLPaseError];
+             NSLog(@"%@", error.localizedDescription);
+             XCTAssert(false, @"Error parsing data");
+             return;
+         }
+         
+         NSDictionary *dictionary = (NSDictionary *)result;
+         if (dictionary == nil) {
+             NSError *error = [Utilities getError:JSONStructureError];
+             NSLog(@"%@", error.localizedDescription);
+             XCTAssert(false, "Error parsing data");
+             return;
+         }
+         
+         NSArray *resultArray = (NSArray *)result;
+         XCTAssert(resultArray.count == 2, "Does not have two elements");
+         NSDictionary *resultDictinary1 = result[0];
+         NSDictionary *resultDictinary2 = result[1];
+         
+         NSString *resultLink1 = resultDictinary1[FlickrFeedPhotoLinkKey];
+         XCTAssert([resultLink1 isEqualToString:FlickrFeedPhotoTestItemId1],
+                   "Links do not match");
+         NSDictionary *resultMedia1 = resultDictinary1[FlickrFeedPhotoMediaKey];
+         NSString *resultMString1 = resultMedia1[FlickrFeedPhotoMKey];
+         XCTAssert([resultMString1 isEqualToString:FlickrFeedPhotoTestUrl],
+                   "M strings do not match");
+         
+         NSString *resultLink2 = resultDictinary2[FlickrFeedPhotoLinkKey];
+         XCTAssert([resultLink2 isEqualToString:FlickrFeedPhotoTestItemId2],
+                   "Links do not match");
+         NSDictionary *resultMedia2 = resultDictinary2[FlickrFeedPhotoMediaKey];
+         NSString *resultMString2 = resultMedia2[FlickrFeedPhotoMKey];
+         XCTAssert([resultMString2 isEqualToString:FlickrFeedPhotoTestUrl],
+                   "M strings do not match");
+     }];
 }
 
 @end
