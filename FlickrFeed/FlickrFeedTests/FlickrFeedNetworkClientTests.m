@@ -19,23 +19,19 @@
 
 static NSDictionary *item1NetworkResult = nil;
 static NSDictionary *item2NetworkResult = nil;
-static NSString *item1NetworkResultFile = nil;
-static NSString *item2NetworkResultFile = nil;
+static NSString *resultJSONDictionaryFileName = nil;
+static NSString *resultJSONArrayFileName = nil;
 
 // MARK: Mock Objects
 
 @interface MockNetworkClient : NetworkClient
 - (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion;
-//- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion;
 @end
 
 @implementation MockNetworkClient
 - (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion {
     completion(item1NetworkResult, nil);
 }
-//- (void)parseJSON:(NSData*)data completionBlock:(NetworkResult)completion {
-//    completion(item1NetworkResult, nil);
-//}
 @end
 
 @implementation FlickrFeedNetworkClientTests {
@@ -62,16 +58,16 @@ static NSString *item2NetworkResultFile = nil;
                            
                            };
     
-    item1NetworkResultFile = @"MockServerResponseDictionary1";
-    item2NetworkResultFile = @"MockServerResponseDictionary1";
+    resultJSONDictionaryFileName = @"MockServerResponseDictionary";
+    resultJSONArrayFileName = @"MockServerResponseArra";
 }
 
 - (void)tearDown {
     _networkClient = nil;
     item1NetworkResult = nil;
     item2NetworkResult = nil;
-    item1NetworkResultFile = nil;
-    item2NetworkResultFile = nil;
+    resultJSONDictionaryFileName = nil;
+    resultJSONArrayFileName = nil;
     [super tearDown];
 }
 
@@ -83,7 +79,7 @@ static NSString *item2NetworkResultFile = nil;
 
 - (void)testNetworkClientParseJSONDictionary {
     NSString *filePath = [[NSBundle mainBundle]
-                          pathForResource:item1NetworkResultFile
+                          pathForResource:resultJSONDictionaryFileName
                           ofType:@"json"];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:filePath];
     
