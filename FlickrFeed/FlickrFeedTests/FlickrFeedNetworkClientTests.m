@@ -25,13 +25,18 @@ static NSString *resultJSONArrayFileName = nil;
 // MARK: Mock Objects
 
 @interface MockNetworkClient : NetworkClient
+
 - (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion;
+
 @end
 
 @implementation MockNetworkClient
+
 - (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion {
-    completion(item1NetworkResult, nil);
+    NSArray *result = @[item1NetworkResult, item2NetworkResult];
+    completion(result, nil);
 }
+
 @end
 
 @implementation FlickrFeedNetworkClientTests {
@@ -74,7 +79,30 @@ static NSString *resultJSONArrayFileName = nil;
 // MARK: JSON Parsing
 
 - (void)testNetworkClientGetUrl {
+    NSString *desc = [NSString stringWithFormat:@"%s%d", __FUNCTION__, __LINE__];
+    XCTestExpectation* expect = [self expectationWithDescription:desc];
     
+    NSURL *url = [NSURL URLWithString:@"https://www.flickr.com/services/"];
+    [[NetworkClient shared] getURL:url completionBlock:
+     ^(id result, NSError* error) {
+         NSDictionary *dictionary = (NSDictionary *)result;
+         NSString *resultLink = dictionary[FlickrFeedPhotoLinkKey];
+         XCTAssert([resultLink isEqualToString:FlickrFeedPhotoTestItemId1],
+                   "Links do not match");
+         NSDictionary *resultMedia = dictionary[FlickrFeedPhotoMediaKey];
+         NSString *resultMString = resultMedia[FlickrFeedPhotoMKey];
+         XCTAssert([resultMString isEqualToString:FlickrFeedPhotoTestUrl],
+                   "M strings do not match");
+         
+         [expect fulfill];
+     }];
+    
+    [self waitForExpectationsWithTimeout:1.0 handler: ^(NSError *error) {
+        if (error != nil) {
+            NSLog(@"%@", error.localizedDescription);
+            XCTFail( @"waitForExpectationWithTimeout error");
+        }
+    }];
 }
 
 - (void)testNetworkClientParseJSONDictionary {
@@ -88,17 +116,18 @@ static NSString *resultJSONArrayFileName = nil;
          if (error != nil) {
              NSError *error = [Utilities getError:URLPaseError];
              NSLog(@"%@", error.localizedDescription);
-             XCTAssert(false, @"Error parsing data");
+             XCTFail(@"Error parsing data");
+             return;
+         }
+         
+         if (result == nil || ![result isKindOfClass:[NSDictionary class]]) {
+             NSError *error = [Utilities getError:JSONStructureError];
+             NSLog(@"%@", error.localizedDescription);
+             XCTFail("Error parsing data");
              return;
          }
          
          NSDictionary *dictionary = (NSDictionary *)result;
-         if (dictionary == nil) {
-             NSError *error = [Utilities getError:JSONStructureError];
-             NSLog(@"%@", error.localizedDescription);
-             XCTAssert(false, "Error parsing data");
-             return;
-         }
          NSString *resultLink = dictionary[FlickrFeedPhotoLinkKey];
          XCTAssert([resultLink isEqualToString:FlickrFeedPhotoTestItemId1],
                    "Links do not match");
@@ -120,7 +149,7 @@ static NSString *resultJSONArrayFileName = nil;
          if (error != nil) {
              NSError *error = [Utilities getError:URLPaseError];
              NSLog(@"%@", error.localizedDescription);
-             XCTAssert(false, @"Error parsing data");
+             XCTFail(@"Error parsing data");
              return;
          }
          
@@ -128,7 +157,7 @@ static NSString *resultJSONArrayFileName = nil;
          if (dictionary == nil) {
              NSError *error = [Utilities getError:JSONStructureError];
              NSLog(@"%@", error.localizedDescription);
-             XCTAssert(false, "Error parsing data");
+             XCTFail("Error parsing data");
              return;
          }
          
