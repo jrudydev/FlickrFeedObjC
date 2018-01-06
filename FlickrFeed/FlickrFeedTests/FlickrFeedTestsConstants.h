@@ -13,4 +13,7 @@
 #define FlickrFeedPhotoTestItemId2 @"FlickrFeedPhotoItemId2"
 #define FlickrFeedPhotoTestUrl @"http://www.example.com?a=b&b=c"
 
+#define MockJSONDictionaryFileName @"MockServerResponseDictionary"
+#define MockJSONArrayFileName @"MockServerResponseArray"
+
 #endif /* FlickrFeedTestsConstants_h */

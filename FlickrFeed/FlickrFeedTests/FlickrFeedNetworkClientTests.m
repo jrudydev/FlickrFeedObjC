@@ -19,20 +19,33 @@
 
 static NSDictionary *item1NetworkResult = nil;
 static NSDictionary *item2NetworkResult = nil;
-static NSString *resultJSONDictionaryFileName = nil;
-static NSString *resultJSONArrayFileName = nil;
 
 // MARK: Mock Objects
 
 @interface MockNetworkClient : NetworkClient
 
-- (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion;
++ (instancetype)shared;
+- (void)getURLDictionary:(NSURL *)url completionBlock:(NetworkResult)completion;
+- (void)getURLArray:(NSURL *)url completionBlock:(NetworkResult)completion;
 
 @end
 
 @implementation MockNetworkClient
 
-- (void)getURL:(NSURL*)url completionBlock:(NetworkResult)completion {
++ (instancetype)shared {
+    static id instance;
+    static dispatch_once_t token;
+    dispatch_once(&token, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
+- (void)getURLDictionary:(NSURL *)url completionBlock:(NetworkResult)completion {
+    completion(item1NetworkResult, nil);
+}
+
+- (void)getURLArray:(NSURL *)url completionBlock:(NetworkResult)completion {
     NSArray *result = @[item1NetworkResult, item2NetworkResult];
     completion(result, nil);
 }
@@ -62,28 +75,23 @@ static NSString *resultJSONArrayFileName = nil;
                                    }
                            
                            };
-    
-    resultJSONDictionaryFileName = @"MockServerResponseDictionary";
-    resultJSONArrayFileName = @"MockServerResponseArray";
 }
 
 - (void)tearDown {
     _networkClient = nil;
     item1NetworkResult = nil;
     item2NetworkResult = nil;
-    resultJSONDictionaryFileName = nil;
-    resultJSONArrayFileName = nil;
     [super tearDown];
 }
 
 // MARK: JSON Parsing
 
-- (void)testNetworkClientGetUrl {
+- (void)testNetworkClientGetUrlDictionary {
     NSString *desc = [NSString stringWithFormat:@"%s%d", __FUNCTION__, __LINE__];
     XCTestExpectation* expect = [self expectationWithDescription:desc];
     
-    NSURL *url = [NSURL URLWithString:@"https://www.flickr.com/services/"];
-    [[NetworkClient shared] getURL:url completionBlock:
+    NSURL *url = [NSURL URLWithString:@"https://www.flickr.com/services"];
+    [_networkClient getURLDictionary:url completionBlock:
      ^(id result, NSError* error) {
          NSDictionary *dictionary = (NSDictionary *)result;
          NSString *resultLink = dictionary[FlickrFeedPhotoLinkKey];
@@ -105,9 +113,53 @@ static NSString *resultJSONArrayFileName = nil;
     }];
 }
 
+- (void)testNetworkClientGetUrlArray {
+    NSString *desc = [NSString stringWithFormat:@"%s%d", __FUNCTION__, __LINE__];
+    XCTestExpectation* expect = [self expectationWithDescription:desc];
+    
+    NSURL *url = [NSURL URLWithString:@"https://www.flickr.com/services"];
+    [_networkClient getURLArray:url completionBlock:
+     ^(id result, NSError* error) {
+         if (![result isKindOfClass:[NSArray class]]) {
+             XCTFail("Did not return an array");
+         }
+         
+         NSArray *array = (NSArray *)result;
+         XCTAssert(array.count == 2, "Two items were not returned");
+         
+         NSDictionary *item1= array[0];
+         NSDictionary *item2= array[1];
+         
+         NSString *resultLink1 = item1[FlickrFeedPhotoLinkKey];
+         XCTAssert([resultLink1 isEqualToString:FlickrFeedPhotoTestItemId1],
+                   "Item1 links do not match");
+         NSDictionary *resultMedia1 = item1[FlickrFeedPhotoMediaKey];
+         NSString *resultMString1 = resultMedia1[FlickrFeedPhotoMKey];
+         XCTAssert([resultMString1 isEqualToString:FlickrFeedPhotoTestUrl],
+                   "Item2 M strings do not match");
+         
+         NSString *resultLink2 = item2[FlickrFeedPhotoLinkKey];
+         XCTAssert([resultLink2 isEqualToString:FlickrFeedPhotoTestItemId2],
+                   "Item2 links do not match");
+         NSDictionary *resultMedia2 = item1[FlickrFeedPhotoMediaKey];
+         NSString *resultMString2 = resultMedia2[FlickrFeedPhotoMKey];
+         XCTAssert([resultMString2 isEqualToString:FlickrFeedPhotoTestUrl],
+                   "Item2 M strings do not match");
+         
+         [expect fulfill];
+     }];
+    
+    [self waitForExpectationsWithTimeout:1.0 handler: ^(NSError *error) {
+        if (error != nil) {
+            NSLog(@"%@", error.localizedDescription);
+            XCTFail( @"waitForExpectationWithTimeout error");
+        }
+    }];
+}
+
 - (void)testNetworkClientParseJSONDictionary {
     NSString *filePath = [[NSBundle mainBundle]
-                          pathForResource:resultJSONDictionaryFileName
+                          pathForResource:MockJSONDictionaryFileName
                           ofType:@"json"];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:filePath];
     
@@ -140,7 +192,7 @@ static NSString *resultJSONArrayFileName = nil;
 
 - (void)testNetworkClientParseJSONArray {
     NSString *filePath = [[NSBundle mainBundle]
-                          pathForResource:resultJSONArrayFileName
+                          pathForResource:MockJSONArrayFileName
                           ofType:@"json"];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:filePath];
     
